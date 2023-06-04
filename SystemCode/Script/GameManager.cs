@@ -19,15 +19,15 @@ public class GameManager : MonoBehaviour
 
     private Quiz quiz;
     private UImanager ui;
-    public InputField answer;
     private int currentIndex;
     private Player player;
     private Monster monster;
     private Living living;
-    private int count;
-    private int non;
+    private int countCorrect;
+    private int nonCorrect;
+    public InputField answer;
 
-    void Awake()
+    private void Awake()
     {
         if (instance != this)
         {
@@ -35,27 +35,22 @@ public class GameManager : MonoBehaviour
         }
 
         currentIndex = 0;
-        count = 0;
-        non = 0;
+        countCorrect = 0;
+        nonCorrect = 0;
+
         ui = UImanager.instance;
         quiz = FindObjectOfType<Quiz>();
         monster = FindObjectOfType<Monster>();
         player = FindObjectOfType<Player>();
         living = FindObjectOfType<Living>();
 
-
-        if (quiz == null)
-        {
-            Debug.LogError("Quiz 오브젝트를 찾을 수 없습니다.");
-            return;
-        }
         quiz.AddProblem();
         quiz.SelectRandomProblems(5);
  
         StartCoroutine(ShowProblem());
     }
 
-    void Update()
+    private void Update()
     {
         if((currentIndex >= 5) || (living.dead == true))
         {
@@ -72,7 +67,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ShowEnd()
+    private void ShowEnd()
     {
         ui.SetActiveEnd(true);
         UImanager.instance.monsterHealth.gameObject.SetActive(false);
@@ -85,7 +80,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CheckAnswer()
+    private void CheckAnswer()
     {
         string inputAnswer = answer.text;
         string currentAnswer = quiz.selectedProblems[quiz.problemKeys[currentIndex]].ToString();
@@ -94,13 +89,13 @@ public class GameManager : MonoBehaviour
         {
             ui.problemText.color = Color.green;
             monster.TakeDamage(20f);
-            ui.UpdateCorrect(++count);
+            ui.UpdateCorrect(++countCorrect);
         }
         else
         {
             ui.problemText.color = Color.red;
             player.TakeDamage(1f);
-            Destroy(ui.hearts[non++].gameObject);
+            Destroy(ui.hearts[nonCorrect++].gameObject);
         }
 
         currentIndex++;
