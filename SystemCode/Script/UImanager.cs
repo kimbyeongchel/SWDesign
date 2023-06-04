@@ -28,7 +28,7 @@ public class UImanager : MonoBehaviour
 
     public void UpdateCorrect(int correctCount)
     {
-        correct.text = "¸ÂÈù ¹®Á¦ ¼ö = " + correctCount;
+        correct.text = "ë§žížŒ ë¬¸ì œ ìˆ˜ = " + correctCount;
     }
 
     public void UpdateNum(int num)
