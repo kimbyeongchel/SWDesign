@@ -20,7 +20,6 @@ public class UImanager : MonoBehaviour
     public Text correct;
     public Text numText;
     public Text problemText;
-    public InputField answer;
     public GameObject pNumberUI;
     public GameObject problemUI;
     public GameObject endUI;
